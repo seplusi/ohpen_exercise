@@ -3,12 +3,11 @@ import requests
 import json
 import calendar
 import time
-
-import xmlrunner as xmlrunner
 from ddt import ddt, data
 
 
-class TestUnnaxContactForm(unittest.TestCase):
+@ddt
+class TestGitHubApi(unittest.TestCase):
     """A sample test class to show how page object works"""
 
     headers = {'Content-Type': 'application/json', "Accept": "application/json"}
@@ -30,11 +29,13 @@ class TestUnnaxContactForm(unittest.TestCase):
     def test_get_repo_properties(self):
         url = "%srepos/seplusi/ohpen_exercise" % self.url
         response = requests.get(url=url, headers=self.headers, auth=('seplusi', 'Luis!23$'))
-        assert response.status_code == 200
-        assert json.loads(response.text)['name'] == "ohpen_exercise"
-        assert json.loads(response.text)['full_name'] == "seplusi/ohpen_exercise"
+        assert response.status_code == 201, 'Expected STATUS_CODE=200. Got STATUS_CODE:%d' %response.status_code
+        assert json.loads(response.text)['name'] == "ohpen_exercise", 'Expected repo name = ohpen_exercise. Got: %s' \
+                                                                      %json.loads(response.text)['name']
+        assert json.loads(response.text)['full_name'] == "seplusi/ohpen_exercise", 'Expected repo full name = seplusi/ohpen_exercise. Got: %s' %json.loads(response.text)['full_name']
 
-    def test_update_repository11(self):
+    @data(1, 2)
+    def test_update_repository11(self, value):
         url = "%srepos/seplusi/ohpen_exercise" % self.url
         ts = calendar.timegm(time.gmtime())
         data = {'description': 'test_%s' %ts}
