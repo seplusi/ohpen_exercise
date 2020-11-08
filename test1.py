@@ -11,7 +11,7 @@ from ddt import ddt, data
 class TestUnnaxContactForm(unittest.TestCase):
     """A sample test class to show how page object works"""
 
-    token = "6d79befd464971fd2b04e06a2e32bda8f4351415"
+    token = "5b0ca5ff96e15fa53b30a3e7690acf642fb1dce0"
     headers = {'Content-Type': 'application/json', "Accept": "application/json", "Authorization": "token %s" %token}
     url = "https://api.github.com/"
 
@@ -67,8 +67,5 @@ class TestUnnaxContactForm(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    with open('/var/tmp/results.xml', 'wb') as output:
-        unittest.main(
-            testRunner=xmlrunner.XMLTestRunner(output=output),
-            failfast=False, buffer=False, catchbreak=False)
+    unittest.main()
 
