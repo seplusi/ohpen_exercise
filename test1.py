@@ -11,8 +11,7 @@ from ddt import ddt, data
 class TestUnnaxContactForm(unittest.TestCase):
     """A sample test class to show how page object works"""
 
-    token = "5b0ca5ff96e15fa53b30a3e7690acf642fb1dce0"
-    headers = {'Content-Type': 'application/json', "Accept": "application/json", "Authorization": "token %s" %token}
+    headers = {'Content-Type': 'application/json', "Accept": "application/json"}
     url = "https://api.github.com/"
 
     @classmethod
@@ -24,13 +23,13 @@ class TestUnnaxContactForm(unittest.TestCase):
 
     def test_get_all_repos_from_user(self):
         url = "%susers/seplusi/repos" %self.url
-        response = requests.get(url=url, headers=self.headers)
+        response = requests.get(url=url, headers=self.headers, auth=('seplusi', 'Luis!23$'))
         assert response.status_code == 200
         assert len(json.loads(response.text)) == 16
 
     def test_get_repo_properties(self):
         url = "%srepos/seplusi/ohpen_exercise" % self.url
-        response = requests.get(url=url, headers=self.headers)
+        response = requests.get(url=url, headers=self.headers, auth=('seplusi', 'Luis!23$'))
         assert response.status_code == 200
         assert json.loads(response.text)['name'] == "ohpen_exercise"
         assert json.loads(response.text)['full_name'] == "seplusi/ohpen_exercise"
@@ -39,14 +38,14 @@ class TestUnnaxContactForm(unittest.TestCase):
         url = "%srepos/seplusi/ohpen_exercise" % self.url
         ts = calendar.timegm(time.gmtime())
         data = {'description': 'test_%s' %ts}
-        response = requests.patch(url=url, headers=self.headers, data=json.dumps(data))
+        response = requests.patch(url=url, headers=self.headers, data=json.dumps(data), auth=('seplusi', 'Luis!23$'))
         assert response.status_code == 200
         assert json.loads(response.text)['name'] == "ohpen_exercise"
         assert json.loads(response.text)['full_name'] == "seplusi/ohpen_exercise"
         assert json.loads(response.text)['description'] == "test_%s" %ts
 
         for _ in range(10):
-            response = requests.get(url=url, headers=self.headers)
+            response = requests.get(url=url, headers=self.headers, auth=('seplusi', 'Luis!23$'))
             assert response.status_code == 200
             if json.loads(response.text)['description'] == "test_%s" % ts:
                 break
