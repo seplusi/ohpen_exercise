@@ -11,7 +11,7 @@ from ddt import ddt, data
 class TestUnnaxContactForm(unittest.TestCase):
     """A sample test class to show how page object works"""
 
-    token = "afbb707cb08dcdee1b055600c5c0aee8d2e95d25"
+    token = "6d79befd464971fd2b04e06a2e32bda8f4351415"
     headers = {'Content-Type': 'application/json', "Accept": "application/json", "Authorization": "token %s" %token}
     url = "https://api.github.com/"
 
